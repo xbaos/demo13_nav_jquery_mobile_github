@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用JavaScript实现规定时间内答题效果</title>
+    <style>
+        .body-content{
+            width: 400px;
+            border: 1px solid #E1E1E1;
+            margin: auto;
+            padding: 20px;
+        }
+        .MainTable{
+            line-height: 45px;
+        }
+        .nextdiv{
+            margin-top: 20px;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="bodyContent" class="body-content">
+    <form method="post">
+        <table class="MainTable" id="QuestionBox">
+            <tr><td style="font-weight: bold">第一题：</td></tr>
+            <tr><td>下列哪种语言在当前应用中不区分大小写：</td></tr>
+            <tr><td><label><input type="radio">A, HTML5</label></td></tr>
+            <tr><td><label><input type="radio">B, CSS3</label></td></tr>
+            <tr><td><label><input type="radio">C, JavaScript</label></td></tr>
+        </table>
+        <div id="TimingInfo">
+            <div><span>单页倒计时：<span id="save_info">20</span>秒</span></div>
+            <div><span>总倒计时：<span id="save_info_all">70</span>秒</span></div>
+            <div class="nextdiv">
+                <input type="button" name="form_save" onclick="next()" value="下一题">
+            </div>
+        </div>
+    </form>
+    <table id="question_2" style="display: none">
+        <tbody>
+        <tr><td style="font-weight: bold">第二题：</td></tr>
+        <tr><td>在HTML文档中，引用外部样式表的标准位置是：</td></tr>
+        <tr><td><label><input type="radio">A, 文档尾部</label></td></tr>
+        <tr><td><label><input type="radio">B, 文档顶部</label></td></tr>
+        <tr><td><label><input type="radio">C, head元素部分</label></td></tr>
+        </tbody>
+    </table>
+    <table id="question_3" style="display: none">
+        <tbody>
+        <tr><td style="font-weight: bold">第三题：</td></tr>
+        <tr><td>下列元素标记中，哪一个标记可以正确的换行：</td></tr>
+        <tr><td><label><input type="radio">A, br</label></td></tr>
+        <tr><td><label><input type="radio">B, break</label></td></tr>
+        <tr><td><label><input type="radio">C, bt</label></td></tr>
+        </tbody>
+    </table>
+    <table id="question_4" style="display: none">
+        <tbody>
+        <tr><td style="font-weight: bold">第四题：</td></tr>
+        <tr><td>：下面语句中，哪一个不能获取元素对象</td></tr>
+        <tr><td><label><input type="radio">A, getElementById</label></td></tr>
+        <tr><td><label><input type="radio">B, getElementsByTag</label></td></tr>
+        <tr><td><label><input type="radio">C, getElementsByTagName</label></td></tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var num=2;
+    var i=20;
+    var i_all=70;
+    var intervalid;
+    var intervalid_all;
+    intervalid=setInterval("Timing()",1000);
+    intervalid_all=setInterval("Timing_all()",1000);
+    function Timing() {
+        document.getElementById("save_info").innerHTML=i;
+        if (i==0){
+            next();
+        }
+        i--;
+    }
+    function Timing_all() {
+        document.getElementById("save_info_all").innerHTML=i_all;
+        if (i_all==0){
+            next();
+        }
+        i_all--;
+    }
+    function next() {
+        clearInterval(intervalid);
+        var main=document.getElementById("QuestionBox");
+        if(num==5){
+            clearInterval(intervalid_all);
+            document.getElementById("TimingInfo").style.display="none";
+            var sum=70-i_all;
+            main.innerHTML="答题结束,用时"+sum+"秒。。。";
+        }else {
+            var content=document.getElementById("question_"+num).innerHTML;
+            main.innerHTML=content;
+            i=20;
+            document.getElementById("save_info").innerHTML=i;
+            intervalid=setInterval("Timing()",1000);
+        }
+        num++;
+    }
+</script>
+</body>
+</html>
+
+
+
+

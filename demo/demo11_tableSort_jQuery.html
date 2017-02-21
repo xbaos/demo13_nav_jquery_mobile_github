@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用jQuery实现表格排序</title>
+    <script language="JavaScript" type="text/javascript" src="jquery/jquery-3.1.1.js"></script>
+    <style>
+        table,table td,table th{
+            border: none;
+            border-collapse: collapse;
+            vertical-align: top;
+            word-break: break-all;
+        }
+        .mainTable{
+            margin: auto;
+            line-height: 45px;
+            text-align: left;
+            width: 500px;
+        }
+        .mainTable tr{
+            border-bottom: 1px solid #E1E1E1;
+        }
+        .mainTable td{
+            padding: 0 10px 0 0;
+        }
+        .sort_asc{
+            background: url("images/sorticon.png") 55px 18px no-repeat;
+            cursor: pointer;
+        }
+        .sort_desc{
+            background: url("images/sorticon.png") 55px -18px no-repeat;
+            cursor: pointer;
+        }
+        .list_sort{
+            text-align: center;
+            width: 60px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#sortID").click(function () {
+                var newContent;
+//                当前排序为正序排列
+                if($(this).hasClass("sort_asc")){
+//                    重新排列列表内容
+                    for(i=9;i>-1;i--){
+                        newContent+="<tr>"+$("#pageContent tr").eq(i).html()+"</tr>";
+                    }
+//                    替换原内容
+                    $("#pageContent").html(newContent);
+                    $("#sortID").removeClass("sort_asc");
+                    $("#sortID").addClass("sort_desc");
+                }else {
+                    //                    重新排列列表内容
+                    for(i=9;i>-1;i--){
+                        newContent+="<tr>"+$("#pageContent tr").eq(i).html()+"</tr>";
+                    }
+//                    替换原内容
+                    $("#pageContent").html(newContent);
+                    $("#sortID").removeClass("sort_desc");
+                    $("#sortID").addClass("sort_asc");
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="divframe">
+    <table class="mainTable">
+        <thead>
+            <tr>
+                <th class="sort_asc list_sort" id="sortID">序号</th>
+                <th>内容</th>
+            </tr>
+        </thead>
+        <tbody id="pageContent">
+            <tr>
+                <td class="list_sort">1</td>
+                <td>互联网网站访问量排行第1名：百度</td>
+            </tr>
+            <tr>
+                <td class="list_sort">2</td>
+                <td>互联网网站访问量排行第2名：新浪</td>
+            </tr>
+            <tr>
+                <td class="list_sort">3</td>
+                <td>互联网网站访问量排行第3名：网易</td>
+            </tr>
+            <tr>
+                <td class="list_sort">4</td>
+                <td>互联网网站访问量排行第4名：腾讯</td>
+            </tr>
+            <tr>
+                <td class="list_sort">5</td>
+                <td>互联网网站访问量排行第5名：搜狐</td>
+            </tr>
+            <tr>
+                <td class="list_sort">6</td>
+                <td>互联网网站访问量排行第6名：淘宝</td>
+            </tr>
+            <tr>
+                <td class="list_sort">7</td>
+                <td>互联网网站访问量排行第7名：搜狗</td>
+            </tr>
+            <tr>
+                <td class="list_sort">8</td>
+                <td>互联网网站访问量排行第8名：360安全中心</td>
+            </tr>
+            <tr>
+                <td class="list_sort">9</td>
+                <td>互联网网站访问量排行第9名：京东商城</td>
+            </tr>
+            <tr>
+                <td class="list_sort">10</td>
+                <td>互联网网站访问量排行第10名：优酷网</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

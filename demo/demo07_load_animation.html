@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实现页面加载动画</title>
+    <style>
+        html,body{
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            font-size: 13px;
+            background: #ed5565;
+            color: #fff;
+        }
+        main{
+            width: 95%;
+            max-width: 1000px;
+            margin: 200px auto;
+            opacity: 0;
+        }
+        main.loaded{
+            opacity: 1;
+        }
+        main .loaders{
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 1 auto;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        main .loaders .loader{
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 1 auto;
+            flex-direction: column;
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 25%;
+            max-width: 25%;
+            /*水平主轴对齐方式*/
+            align-items: center;
+            /*垂直交叉轴对齐方式*/
+            justify-content: center;
+        }
+        /*第一个动画，通过控制每个圆点的缩放和缩放延时时间来实现动员效果*/
+        @keyframes ball-grid-pulse {
+            0%{
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
+            50%{
+                transform: scale(0.5);
+                -webkit-transform: scale(0.5);
+                opacity: 0.7;
+            }
+            100%{
+                transform: scale(1);
+                -webkit-transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @-webkit-keyframes ball-grid-pulse {
+            0%{
+                transform: scale(1);
+                -webkit-transform: scale(1);
+            }
+            50%{
+                transform: scale(0.5);
+                -webkit-transform: scale(0.5);
+                opacity: 0.7;
+            }
+            100%{
+                transform: scale(1);
+                -webkit-transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .ball-grid-pulse{
+            width: 57px;
+        }
+        .ball-grid-pulse> div:nth-child(1){
+            -webkit-animation-delay: -0.06s;
+            animation-delay: -0.06s;
+            -webkit-animation-duration: 0.72s;
+            animation-duration: 0.72s;
+        }
+        .ball-grid-pulse> div:nth-child(2){
+            -webkit-animation-delay: -0.25s;
+            animation-delay: -0.25s;
+            -webkit-animation-duration: 1.02s;
+            animation-duration: 1.02s;
+        }
+        .ball-grid-pulse> div:nth-child(3){
+            -webkit-animation-delay: -0.17s;
+            animation-delay: -0.17s;
+            -webkit-animation-duration: 1.28s;
+            animation-duration: 1.28s;
+        }
+        .ball-grid-pulse> div:nth-child(4){
+            -webkit-animation-delay: 0.48s;
+            animation-delay: 0.48s;
+            -webkit-animation-duration: 1.42s;
+            animation-duration: 1.42s;
+        }
+        .ball-grid-pulse> div:nth-child(5){
+            -webkit-animation-delay: 0.31s;
+            animation-delay: 0.31s;
+            -webkit-animation-duration: 1.45s;
+            animation-duration: 1.45s;
+        }
+        .ball-grid-pulse> div:nth-child(6){
+            -webkit-animation-delay: 0.03s;
+            animation-delay: 0.03s;
+            -webkit-animation-duration: 1.18s;
+            animation-duration: 1.18s;
+        }
+        .ball-grid-pulse> div:nth-child(7){
+            -webkit-animation-delay: 0.46s;
+            animation-delay: 0.46s;
+            -webkit-animation-duration: 0.87s;
+            animation-duration: 0.87s;
+        }
+        .ball-grid-pulse> div:nth-child(8){
+            -webkit-animation-delay: 0.78s;
+            animation-delay: 0.78s;
+            -webkit-animation-duration: 1.45s;
+            animation-duration: 1.45s;
+        }
+        .ball-grid-pulse> div:nth-child(9){
+            -webkit-animation-delay: 0.45s;
+            animation-delay: 0.45s;
+            -webkit-animation-duration: 1.06s;
+            animation-duration: 1.06s;
+        }
+        .ball-grid-pulse> div{
+            background-color: #fff;
+            width: 15px;
+            height: 15px;
+            border-radius: 100%;
+            margin: 2px;
+            -webkit-animation-fill-mode: both;
+            display: inline-block;
+            float: left;
+            -webkit-animation-name: ball-grid-pulse;
+            animation-name: ball-grid-pulse;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+        /*第二个动画，控制元素动画关键点的旋转*/
+        @keyframes rotate {
+            0%{
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            50%{
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+            0%{
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @-webkit-keyframes rotate {
+            0%{
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            50%{
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+            0%{
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        .ball-clip-rotate-multiple{
+            position: relative;
+        }
+        .ball-clip-rotate-multiple> div{
+            position: absolute;
+            animation-fill-mode: both;
+            -webkit-animation-fill-mode: both;
+            left: 0px;
+            top: 0px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-top-color: transparent;
+            border-radius: 100%;
+            height: 35px;
+            width: 35px;
+            -webkit-animation: rotate 1s 0s ease-in-out infinite;
+            animation: rotate 1s 0s ease-in-out infinite;
+        }
+        .ball-clip-rotate-multiple> div:last-child{
+            display: inline-block;
+            top: 10px;
+            left: 10px;
+            width: 15px;
+            height: 15px;
+            -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+            border-color: #fff transparent #fff transparent;
+            -webkit-animation-direction: reverse;
+            animation-direction: reverse;
+        }
+        /*第三个动画，控制关键点，不同时刻在Y轴上缩放不同，然后将动画加载到子元素上*/
+        @keyframes line-scale {
+            0%{
+                -webkit-transform: scaleY(1);
+                transform: scaleY(1);
+            }
+            50%{
+                -webkit-transform: scaleY(0.4);
+                transform: scaleY(0.4);
+            }
+            100%{
+                -webkit-transform: scaleY(1);
+                transform: scaleY(1);
+            }
+        }
+        @-webkit-keyframes line-scale {
+            0%{
+                -webkit-transform: scaleY(1);
+                transform: scaleY(1);
+            }
+            50%{
+                -webkit-transform: scaleY(0.4);
+                transform: scaleY(0.4);
+            }
+            100%{
+                -webkit-transform: scaleY(1);
+                transform: scaleY(1);
+            }
+        }
+        .line-scale> div:nth-child(1){
+            -webkit-animation: line-scale 1s 0.1s infinite cubic-bezier(.2,.68,.18,1.08);
+            animation: line-scale 1s 0.1s infinite cubic-bezier(.2,.68,.18,1.08);
+        }
+        .line-scale> div:nth-child(2){
+            -webkit-animation: line-scale 1s 0.2s infinite cubic-bezier(.2,.68,.18,1.08);
+            animation: line-scale 1s 0.2s infinite cubic-bezier(.2,.68,.18,1.08);
+        }
+        .line-scale> div:nth-child(3){
+            -webkit-animation: line-scale 1s 0.3s infinite cubic-bezier(.2,.68,.18,1.08);
+            animation: line-scale 1s 0.3s infinite cubic-bezier(.2,.68,.18,1.08);
+        }
+        .line-scale> div:nth-child(4){
+            -webkit-animation: line-scale 1s 0.4s infinite cubic-bezier(.2,.68,.18,1.08);
+            animation: line-scale 1s 0.4s infinite cubic-bezier(.2,.68,.18,1.08);
+        }
+        .line-scale> div:nth-child(5){
+            -webkit-animation: line-scale 1s 0.5s infinite cubic-bezier(.2,.68,.18,1.08);
+            animation: line-scale 1s 0.5s infinite cubic-bezier(.2,.68,.18,1.08);
+        }
+        .line-scale> div{
+            background-color: #fff;
+            width: 4px;
+            height: 35px;
+            border-radius: 2px;
+            margin: 2px;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            display: inline-block;
+        }
+        /*第四个动画，大球通过控制旋转角度实现张合的动画，小球通过位移，不透明度。以及延迟时间实现移动动画
+          二者采用绝对定位实现结合*/
+        /*设置小球位置动画*/
+        @-webkit-keyframes pacman-balls {
+            75%{
+                opacity: 0.7;
+            }
+            100%{
+                transform: translate(-100px,-6.25px);
+                -webkit-transform: translate(-100px,-6.25px);
+            }
+        }
+        @keyframes pacman-balls {
+            75%{
+                opacity: 0.7;
+            }
+            100%{
+                transform: translate(-100px,-6.25px);
+                -webkit-transform: translate(-100px,-6.25px);
+            }
+        }
+        /*设置大球向上开口动画*/
+        @-webkit-keyframes rotate_pacman_half_up {
+            0%{
+                -webkit-transform: rotate(270deg);
+                transform: rotate(270deg);
+            }
+            50%{
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+            100%{
+                -webkit-transform: rotate(270deg);
+                transform: rotate(270deg);
+            }
+        }
+        @keyframes rotate_pacman_half_up {
+            0%{
+                -webkit-transform: rotate(270deg);
+                transform: rotate(270deg);
+            }
+            50%{
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+            100%{
+                -webkit-transform: rotate(270deg);
+                transform: rotate(270deg);
+            }
+        }
+        /*设置大球开口向下动画*/
+        @-webkit-keyframes rotate_pacman_half_down {
+            0%{
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+            50%{
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100%{
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+        }
+        @keyframes rotate_pacman_half_down {
+            0%{
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+            50%{
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100%{
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+        }
+        .pacman{
+            position: relative;
+        }
+        .pacman> div:nth-child(2){
+            -webkit-animation: pacman-balls 1s 0s infinite linear;
+            animation: pacman-balls 1s 0s infinite linear;
+        }
+        .pacman> div:nth-child(3){
+            -webkit-animation: pacman-balls 1s 0.33s infinite linear;
+            animation: pacman-balls 1s 0.33s infinite linear;
+        }
+        .pacman> div:nth-child(4){
+            -webkit-animation: pacman-balls 1s 0.66s infinite linear;
+            animation: pacman-balls 1s 0.66s infinite linear;
+        }
+        .pacman> div:nth-child(5){
+            -webkit-animation: pacman-balls 1s 0.99s infinite linear;
+            animation: pacman-balls 1s 0.99s infinite linear;
+        }
+        .pacman> div:first-of-type{
+            width: 0px;
+            height: 0px;
+            border-right: 25px solid transparent;
+            border-top: 25px solid #fff;
+            border-bottom: 25px solid #fff;
+            border-left: 25px solid #fff;
+            border-radius: 25px;
+            -webkit-animation: rotate_pacman_half_up 0.5s 0s infinite;
+            animation: rotate_pacman_half_up 0.5s 0s infinite;
+        }
+        .pacman> div:nth-child(2){
+            width: 0px;
+            height: 0px;
+            border-right: 25px solid transparent;
+            border-top: 25px solid #fff;
+            border-bottom: 25px solid #fff;
+            border-left: 25px solid #fff;
+            border-radius: 25px;
+            -webkit-animation: rotate_pacman_half_down 0.5s 0s infinite;
+            animation: rotate_pacman_half_down 0.5s 0s infinite;
+            margin-top: -50px;
+        }
+        .pacman> div:nth-child(3),
+        .pacman> div:nth-child(4),
+        .pacman> div:nth-child(5){
+            background-color: #fff;
+            border-radius: 100%;
+            margin: 2px;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            -webkit-transform: translate(0,-6.25px);
+            transform: translate(0,-6.25px);
+            top: 25px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+<main class="loaded">
+    <div class="loaders">
+     <div class="loader">
+        <div class="loader-inner ball-grid-pulse">
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+        </div>
+     </div>
+     <div class="loader">
+        <div class="loader-inner ball-clip-rotate-multiple">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+     </div>
+     <div class="loader">
+        <div class="loader-inner line-scale">
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+        </div>
+     </div>
+     <div class="loader">
+        <div class="loader-inner pacman">
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+            <div ></div>
+        </div>
+     </div>
+    </div>
+</main>
+</body>
+</html>

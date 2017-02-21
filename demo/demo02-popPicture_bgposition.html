@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POP轮转图</title>
+    <style>
+        .demo{
+            width: 796px;
+            height: 400px;
+            margin: 50px auto;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            background-origin: content-box;
+            border-image: url("images/ipad.png") 120/100px;
+            background-image: url("images/pic01.png"),url("images/pic02.png"),url("images/pic03.png"),url("images/pic04.png"),
+            url("images/pic05.png");
+            background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat;
+            background-position: 0px 0px,-796px 0px,-1594px 0px,-2388px 0px,-3184px 0px;
+            background-size: 796px 400px;
+            -webkit-animation-name: myfirst;
+            -webkit-animation-duration: 8s;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-delay: 4s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-direction: alternate;
+            -webkit-animation-play-state: running;
+            -moz-animation-name: myfirst;
+            -moz-animation-duration: 8s;
+            -moz-animation-delay: 4s;
+            -moz-animation-timing-function: linear;
+            -moz-animation-iteration-count: infinite;
+            -moz-animation-direction: alternate;
+            -moz-animation-play-state: running;
+        }
+        @keyframes myfirst {
+            0% {background-position:  0px 0px,-796px 0px,-1594px 0px,-2388px 0px,-3184px 0px;}
+            25% {background-position:  796px 0px,0px 0px,-796px 0px,-1594px 0px,-2388px 0px;}
+            0% {background-position:  1594px 0px,796px 0px,0px 0px,-796px 0px,-1594px 0px;}
+            0% {background-position:  2388px 0px,1594px 0px,796px 0px,0px 0px,-796px 0px;}
+            0% {background-position:  3184px 0px,2388px 0px,1594px 0px,796px 0px,0px 0px;}
+        }
+        @-moz-keyframes myfirst {
+            0% {background-position:  0px 0px,-796px 0px,-1594px 0px,-2388px 0px,-3184px 0px;}
+            25% {background-position:  796px 0px,0px 0px,-796px 0px,-1594px 0px,-2388px 0px;}
+            0% {background-position:  1594px 0px,796px 0px,0px 0px,-796px 0px,-1594px 0px;}
+            0% {background-position:  2388px 0px,1594px 0px,796px 0px,0px 0px,-796px 0px;}
+            0% {background-position:  3184px 0px,2388px 0px,1594px 0px,796px 0px,0px 0px;}
+        }
+        @-webkit-keyframes myfirst {
+            0% {background-position:  0px 0px,-796px 0px,-1594px 0px,-2388px 0px,-3184px 0px;}
+            25% {background-position:  796px 0px,0px 0px,-796px 0px,-1594px 0px,-2388px 0px;}
+            0% {background-position:  1594px 0px,796px 0px,0px 0px,-796px 0px,-1594px 0px;}
+            0% {background-position:  2388px 0px,1594px 0px,796px 0px,0px 0px,-796px 0px;}
+            0% {background-position:  3184px 0px,2388px 0px,1594px 0px,796px 0px,0px 0px;}
+        }
+    </style>
+</head>
+<body>
+<div class="demo"></div>
+</body>
+</html>
